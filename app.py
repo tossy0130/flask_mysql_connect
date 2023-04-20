@@ -44,7 +44,7 @@ def conn_db():
     return conn
 
 
-@app.route('/select', methods=['GET'])
+@app.route('/', methods=['GET'])
 # ========= Mysql SELECT
 def select():
 
@@ -63,7 +63,7 @@ def select():
     return render_template('select.html', rows=rows)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/up', methods=['GET', 'POST'])
 # ========= Mysql インサート処理
 def up():
     if request.method == 'POST':
@@ -82,6 +82,19 @@ def up():
         cursor.close()
         return redirect(url_for('select'))
     return render_template('up.html')
+
+
+@app.route('/delete/<string:user_id>', methods=['POST'])
+# ========== MySql 削除処理
+def delete(user_id):
+    conn = conn_db()
+    cursor = conn.cursor()
+    cursor.execute(
+        "DELETE FROM users WHERE id=%s", (user_id,))
+
+    conn.commit()
+    conn.close()
+    return redirect(url_for('select'))
 
 
 if __name__ == '__main__':

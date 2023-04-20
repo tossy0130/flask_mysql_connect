@@ -4,11 +4,15 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+      
 
     </head>
     <body>
+
+
 
         <table>
             <thead>
@@ -16,18 +20,56 @@
                     <th>ID</th>
                     <th>名前</th>
                     <th>メールアドレス</th>
+                    <th>データ削除</th>
                 </tr>
             </thead>
+
+            <!-- ==========  一覧表示 fetch_all で取得したデータを表示する  ========== -->
+            <div id="app">
             <tbody>
                 {% for item in rows %}
                 <tr>
                    <td>{{ item[0] }}</td>
                     <td>{{ item[1] }}</td>
                     <td>{{ item[2] }}</td>
+                    <td>
+                    
+                    <div id="app">
+                        <form action="/delete/{{ item[0] }}" method="post" @submit.prevent="deleteItem">
+                            <button type="submit">削除</button>
+                        </form>
+                    </div>
+                      
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
+            </div>
+
+            <!-- ==========  一覧表示 fetch_all で取得したデータを表示する　END ========== -->
+
         </table>
+
+<!-- Vue.jsのCDNを読み込む -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+<script>
+
+    const app = new Vue({
+            el: '#app',
+            data:{
+
+            },
+          
+            methods: {
+                deleteItem() {
+                   alert('クリック！');
+                    console.log('clicked!');
+                }
+            }
+        });
+
+
+</script>
 
     
     </body>
